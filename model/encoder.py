@@ -34,6 +34,7 @@ class EncoderLayer(nn.Module):
     SublayerConnection的作用就是把multi和ffn连在一起，只不过每一层输出之后都要先norm再残差
     """
     def forward(self, x, mask):
+        """到这里实现了Attention --> Add & Norm --> FeedForward --> Add & Norm的一层Encoder操作"""
         x = self.sublayer[0](x, lambda x: self.self_attn(x, x, x, mask))
         # 注意到attn得到的结果x直接作为了下一层的输入
         return self.sublayer[1](x, self.feed_forward)

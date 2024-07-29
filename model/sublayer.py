@@ -1,10 +1,11 @@
 import torch
 import torch.nn as nn
 
-from parser import args
-
 
 class LayerNorm(nn.Module):
+    """
+    进行标准化并进行一层线性网络
+    """
     def __init__(self, features, eps=1e-6):
         super(LayerNorm, self).__init__()
         self.a_2 = nn.Parameter(torch.ones(features))
@@ -24,4 +25,7 @@ class SublayerConnection(nn.Module):
         self.dropout = nn.Dropout(dropout)
 
     def forward(self, x, sublayer):
+        """
+        当传入的sublayer为attention时，便实现了Add & Norm
+        """
         return x + self.dropout(sublayer(self.norm(x)))

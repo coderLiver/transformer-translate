@@ -1,11 +1,11 @@
 import copy
 import os
 
-from parser import args
+from par ser import args
 
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
+import torch.nn.functio nal as F
 
 from prepare_data import PrepareData
 from model.attention import MultiHeadedAttention
@@ -21,6 +21,13 @@ from train import train
 from evaluate import evaluate
 
 def make_model(src_vocab, tgt_vocab, N = 6, d_model = 512, d_ff = 2048, h = 8, dropout = 0.1):
+    """
+    src_vocab：接受源词汇大小
+    tgt_vocab：目标词汇大小
+    h: heads数量
+    d_model: 模型的特征维度，
+    d_ff: 前馈网络中间层的维度
+    """
     c = copy.deepcopy
     attn = MultiHeadedAttention(h, d_model).to(args.device)
     ff = PositionwiseFeedForward(d_model, d_ff, dropout).to(args.device)
@@ -63,8 +70,8 @@ def main():
     if args.type == 'train':
         # 训练
         print(">>>>>>> start train")
-        criterion = LabelSmoothing(args.tgt_vocab, padding_idx = 0, smoothing= 0.0)
-        optimizer = NoamOpt(args.d_model, 1, 2000, torch.optim.Adam(model.parameters(), lr=0, betas=(0.9,0.98), eps=1e-9))
+        criterion = LabelSmoothing(args.tgt_vocab, padding_idx=0, smoothing=0.0)
+        optimizer = NoamOpt(args.d_model, 1, 2000, torch.optim.Adam(model.parameters(), lr=0, betas=(0.9, 0.98), eps=1e-9))
         
         train(data, model, criterion, optimizer)
         print("<<<<<<< finished train")

@@ -19,5 +19,5 @@ def seq_padding(X, padding=0):
 def subsequent_mask(size):
     "Mask out subsequent positions."
     attn_shape = (1, size, size)
-    subsequent_mask = np.triu(np.ones(attn_shape), k=1).astype('uint8')
-    return torch.from_numpy(subsequent_mask) == 0
+    subsequent_mask = np.triu(np.ones(attn_shape), k=1).astype('uint8')  # triangle upper
+    return torch.from_numpy(subsequent_mask) == 0  # TODO 这里的遮挡关系还需要理解，为什么是和0作对比
